@@ -1,0 +1,105 @@
+# Featured client work, personal projects, and the shorter "more work" lists.
+# Leave url, url2 or code empty if there is no public link (private repos would 404 for visitors).
+
+featured:
+  - name: Äike website + shop
+    url: https://rideaike.com
+    url2: https://shop.rideaike.com
+    summary: Multilingual multisite coded from scratch on WordPress, with custom TypeScript-based ACF field logic and a connected WooCommerce store.
+    role: Web developer at Äike
+    stack: [PHP, TypeScript, Twig, JavaScript, ACF, WordPress multisite, WooCommerce]
+    code: ""
+  - name: Bombay Club
+    url: https://bombayclub.com
+    url2: ""
+    summary: Custom WordPress theme coded from Figma designs, with reusable ACF content modules for the editors.
+    role: Webmaster at Bombay Group
+    stack: [PHP, JavaScript, HTML, CSS, ACF, WordPress]
+    code: ""
+  - name: Vennaskond 1984
+    url: https://vennaskond1984.com
+    url2: ""
+    summary: WooCommerce merchandise store development.
+    role: Store development
+    stack: [PHP, JavaScript, HTML, CSS, WooCommerce]
+    code: ""
+  - name: Herol Audio
+    url: https://herol.audio
+    url2: ""
+    summary: Website built on Voog CMS with Liquid templates.
+    role: Development
+    stack: [Liquid, JavaScript, HTML, CSS, Voog CMS]
+    code: ""
+
+personal:
+  - name: Kinokaart
+    url: https://kinokaart.onrender.com
+    code: ""
+    summary: Live map of Estonian cinema showtimes. Aggregates 8 cinema chains (14 venues) into one Leaflet map, where every pin shows its next screening, with filters, a two-week date picker and walk, bike or car routing.
+    stack: [Node.js, Express, Leaflet, Vanilla JS, Cheerio, Cloudflare Workers, Render]
+    highlights:
+      - One adapter per chain, reverse-engineered from JSON APIs, XML feeds and server-rendered HTML, normalised into one feed. A failing source never breaks the map.
+      - Stale-while-revalidate caching (memory + disk), so each cinema is fetched once per interval, not once per visitor.
+      - Fixed a production-only timezone bug by pinning times to Europe/Tallinn, and routed a cinema that blocks cloud IPs through a Cloudflare Worker proxy.
+  - name: FC Strategy Board
+    url: https://t6nut.github.io/fc-strategy/
+    code: https://github.com/t6nut/fc-strategy
+    summary: Offline-capable tactics board for my Sunday-league team, built for one-handed use on a phone. Drag the squad onto a true-to-scale pitch, auto-fill formations, draw runs and passes, and see which pass lanes are open.
+    stack: [Vanilla JS (ES modules), SVG, PWA, Service Worker, Pointer Events]
+    highlights:
+      - Zero dependencies and no build step. Installable PWA with a network-first service worker and screen wake lock for sideline use.
+      - Pass-lane blocking calculated in real metres on a 105 × 68 m pitch, not in pixels.
+      - Serverless sharing. A compact URL codec cut a shared board from about 1,860 to 190 characters.
+  - name: Painter 3D
+    url: https://painter-3d.netlify.app/
+    code: ""
+    summary: Family-friendly first-person browser game where the ammunition is paint and every surface is a canvas. 16 painting tools, 11 maps, bots, couch co-op and online 1v1 with voice chat.
+    stack: [Three.js, Vite, WebGL, WebRTC, Web Audio]
+    highlights:
+      - Painting is raycast → UV → 2D canvas draw, so the same code paints a wall, a sphere or a character's arm.
+      - Dirty-rectangle texture uploads, about 0.7 MB/s instead of about 40 MB/s.
+      - No game engine or physics library. Peer-to-peer play replicates paint operations, not pixels.
+  - name: "Capybara & Panda: Hug Quest"
+    url: https://capybara-panda-game.netlify.app/
+    code: ""
+    summary: Cozy 3D open-world browser game I built for my daughter. Roam a big map as a capybara, panda or bear, drive vehicles, ride attractions and hug the animals you meet.
+    stack: [Three.js, WebGL, Web Audio, JavaScript]
+    highlights:
+      - A single self-contained HTML file with no engine and no build step. Models, textures and sound are all generated in code.
+      - One input layer for keyboard, gamepad and touch, so mobile and controller support needed no gameplay changes.
+      - Performance trade-offs for WebGL, such as fake light pools for dozens of street lamps instead of real dynamic lights.
+  - name: Pizza Cat
+    url: https://t6nut.github.io/pizza-cat-game/
+    code: https://github.com/t6nut/pizza-cat-game
+    summary: Small endless 2D pixel-art platformer with collision detection and sprite animation, auto-deployed to GitHub Pages.
+    stack: [JavaScript, Phaser, HTML5 Canvas]
+    highlights: []
+  - name: React webshop
+    url: ""
+    code: https://github.com/t6nut/front-end-06-2024/tree/main/webshop
+    summary: E-commerce app built from scratch during a React course, with Firebase authentication and database.
+    stack: [React, TypeScript, Firebase]
+    highlights: []
+
+more:
+  - label: WordPress
+    items:
+      - { name: reitingud.ee, url: https://reitingud.ee }
+      - { name: 1dox.site, url: https://1dox.site }
+      - { name: kodasema.com, url: https://kodasema.com }
+      - { name: tuul.xyz, url: https://www.tuul.xyz }
+  - label: WooCommerce
+    items:
+      - { name: ajakirjandus.ke.ee, url: https://ajakirjandus.ke.ee }
+  - label: Voog CMS
+    items:
+      - { name: warmeston.ee, url: https://warmeston.ee }
+      - { name: bmf.ee, url: https://www.bmf.ee }
+      - { name: cuoqforest.com, url: https://cuoqforest.com }
+      - { name: powerhouse.ee, url: https://powerhouse.ee }
+  - label: Other
+    items:
+      - { name: "comodule.com (Squarespace, frontend)", url: https://www.comodule.com }
+      - { name: "maapou.keskkonnaharidus.ee (educational game)", url: "" }
+      - { name: "UGV interface (Vue 3, TypeScript, Leaflet)", url: https://github.com/t6nut/ugv-interface }
+      - { name: "Custom markers map (React)", url: https://github.com/t6nut/custom-markers-map }

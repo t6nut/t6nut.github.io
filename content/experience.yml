@@ -1,0 +1,35 @@
+# Jobs, newest first. Used on the About timeline.
+
+jobs:
+  - title: Webmaster
+    org: Bombay Group
+    when: 2025 – 2026
+    place: Tallinn
+    bullets:
+      - Own the architecture, development, content updates and infrastructure of multiple production WordPress websites.
+      - Built bombayclub.com as a custom WordPress theme from Figma designs (PHP, ACF, JavaScript, HTML, CSS).
+      - Created reusable ACF content modules so editors can put together new pages without developer help.
+      - Run the server side, covering server management, backups, file management and day-to-day fixes.
+  - title: Web Developer
+    org: Comodule, Äike, Tuul
+    when: 2021 – 2024
+    place: Tallinn
+    bullets:
+      - Built full-stack websites and e-shops on WordPress and WooCommerce, owning most of the frontend implementation.
+      - Delivered responsive, campaign-ready pages and reusable components with product and marketing teams.
+      - Developed rideaike.com from scratch, a multilingual WordPress multisite with custom TypeScript-based ACF field logic, connected to a separate WooCommerce store.
+      - Worked with Bitbucket Pipelines, Docker, Lando, Node.js and npm; applied SEO practices in production.
+  - title: Front-End Developer
+    org: Codelab Solutions
+    when: 2018 – 2021
+    place: Tallinn
+    bullets:
+      - Worked directly with clients to turn custom designs into fully responsive websites and applications for desktop, tablet and mobile.
+      - Built with HTML, CSS, JavaScript, PHP, Timber/Twig, Bootstrap, jQuery and AJAX on WordPress and Voog CMS.
+      - Focused on usability, browser compatibility and marketing-oriented website delivery.
+  - title: Web Developer (started as intern)
+    org: No11 Agency
+    when: 2017 – 2018
+    place: Tallinn
+    bullets:
+      - Built my first client website fully from scratch, then delivered custom-designed, responsive sites on WordPress and Voog CMS for many clients.

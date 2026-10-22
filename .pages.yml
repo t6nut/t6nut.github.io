@@ -1,0 +1,105 @@
+# Config for Pages CMS (https://pagescms.org): a free visual editor for these YAML files.
+# Every save in the editor is a commit to main, which triggers the deploy workflow.
+
+content:
+  - name: profile
+    label: Profile & about
+    type: file
+    path: content/profile.yml
+    format: yaml
+    fields:
+      - { name: name, label: Name, type: string }
+      - { name: role, label: Role, type: string }
+      - { name: location, label: Location, type: string }
+      - { name: availability, label: Availability line, type: string }
+      - { name: pitch, label: One-line pitch (hero), type: text }
+      - { name: email, label: Email, type: string }
+      - { name: linkedin, label: LinkedIn URL, type: string }
+      - { name: github, label: GitHub URL, type: string }
+      - { name: site_url, label: Site URL (no trailing slash), type: string }
+      - { name: seo_title, label: SEO title, type: string }
+      - { name: seo_description, label: SEO description, type: text }
+      - { name: about, label: About paragraphs, type: text, list: true }
+      - name: education
+        label: Education
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Title, type: string }
+          - { name: org, label: School, type: string }
+          - { name: when, label: Dates, type: string }
+          - { name: note, label: Note, type: text }
+
+  - name: projects
+    label: Projects
+    type: file
+    path: content/projects.yml
+    format: yaml
+    fields:
+      - name: featured
+        label: Featured projects
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Name, type: string }
+          - { name: url, label: Live URL, type: string }
+          - { name: url2, label: Second URL, type: string }
+          - { name: summary, label: One-line summary, type: text }
+          - { name: role, label: My role, type: string }
+          - { name: stack, label: Stack, type: string, list: true }
+          - { name: code, label: Code URL, type: string }
+      - name: personal
+        label: Personal projects
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Name, type: string }
+          - { name: url, label: Live URL, type: string }
+          - { name: code, label: Code URL (public repos only), type: string }
+          - { name: summary, label: Summary, type: text }
+          - { name: stack, label: Stack, type: string, list: true }
+          - { name: highlights, label: Highlights (2–3 short lines), type: text, list: true }
+      - name: more
+        label: More sites (groups)
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Group name, type: string }
+          - name: items
+            label: Sites
+            type: object
+            list: true
+            fields:
+              - { name: name, label: Name, type: string }
+              - { name: url, label: URL, type: string }
+
+  - name: experience
+    label: Experience
+    type: file
+    path: content/experience.yml
+    format: yaml
+    fields:
+      - name: jobs
+        label: Jobs (newest first)
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Job title, type: string }
+          - { name: org, label: Company, type: string }
+          - { name: when, label: Dates, type: string }
+          - { name: place, label: Place, type: string }
+          - { name: bullets, label: Bullets, type: text, list: true }
+
+  - name: skills
+    label: Skills
+    type: file
+    path: content/skills.yml
+    format: yaml
+    fields:
+      - name: groups
+        label: Skill groups
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Group name, type: string }
+          - { name: items, label: Skills, type: string, list: true }

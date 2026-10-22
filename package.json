@@ -1,0 +1,12 @@
+{
+  "name": "t6nut.github.io",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs && npx --yes serve@14 dist -l 3000"
+  },
+  "dependencies": {
+    "yaml": "^2.6.1"
+  }
+}

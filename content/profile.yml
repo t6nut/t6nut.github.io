@@ -1,0 +1,33 @@
+# Who you are, contact links and the About text.
+# Edit on GitHub.com (pencil icon) or in Pages CMS. Every save redeploys the site.
+
+name: Tõnu Trubetsky jr.
+role: Web Developer
+location: Tallinn, Estonia
+availability: Open to remote and local work, full-time or freelance.
+pitch: I design and build websites and web apps, from custom CMS themes and online stores to JavaScript projects built from scratch.
+
+email: tttrubetsky@gmail.com
+linkedin: https://www.linkedin.com/in/tonutrubetskyjr/
+github: https://github.com/t6nut
+
+site_url: https://t6nut.github.io
+seo_title: Tõnu Trubetsky jr. – Web Developer, Tallinn
+seo_description: Web developer in Tallinn with 8 years of experience. Hand-coded websites, custom CMS themes, online stores and JavaScript web apps in HTML, CSS, JavaScript, TypeScript and PHP.
+
+about:
+  - I've been building websites for about eight years, in agencies and in-house. Most of my client work is hand-coded. That means custom themes in PHP, Twig and ACF, and frontends written in plain HTML, CSS and JavaScript or TypeScript. WordPress has usually been the CMS underneath, alongside Voog, Squarespace and sites with no CMS at all, but the code on top is mine.
+  - As webmaster at Bombay Group I look after several production sites, covering code, content, server and backups. Outside client work I build my own projects, such as a live map of Estonian cinema showtimes, a tactics board for my football team, and 3D browser games in Three.js.
+  - Away from the screen, I cycle, play football and padel, and do design for fun in Illustrator and Figma.
+
+
+education:
+  - title: BSc Computer Science
+    org: Tallinn University
+    when: 2014 – 2018
+    note: Web development, web design and UI/UX prototyping, Adobe design tools, MySQL, Python, Java, C.
+  - title: React Development Course
+    org: Aurora Development OÜ
+    when: Jun – Aug 2024
+    note: React, TypeScript, Node.js, Firebase (Realtime Database, Hosting, Auth).
+

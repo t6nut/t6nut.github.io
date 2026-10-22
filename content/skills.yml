@@ -1,0 +1,19 @@
+# Skill groups. Shown on the portfolio. Only list things you have really used.
+
+groups:
+  - label: Frontend
+    items: [HTML5, CSS3, JavaScript (ES6+), TypeScript, React, Vue, jQuery, AJAX, Responsive and cross-browser development, PWA and service workers, Three.js and WebGL, Leaflet maps]
+  - label: Backend
+    items: [PHP, Node.js, Express, REST APIs, Web scraping (Cheerio)]
+  - label: CMS and e-commerce
+    items: [Custom WordPress themes, WooCommerce, ACF, Timber/Twig, Gutenberg, Multisite and multilingual, Voog (Liquid), Squarespace]
+  - label: Landing pages and marketing tools
+    items: [Campaign landing pages, Gravity Forms, WPForms, Contact Form 7, Mailchimp, Brevo, ActiveCampaign, WooCommerce email flows]
+  - label: Tracking, SEO and CRO
+    items: [Google Tag Manager, GA4, Meta Pixel, Hotjar, A/B testing, "Technical SEO (schema, sitemaps, redirects, Core Web Vitals)"]
+  - label: Workflow and hosting
+    items: [Git, Bitbucket Pipelines, GitHub Actions, Docker, Lando, npm, Server management, DNS, Backups, SSH/SFTP, Netlify, Render, Cloudflare Workers]
+  - label: Design and collaboration
+    items: [Figma, Illustrator, Photoshop, Jira, Confluence, Notion, Slack]
+  - label: AI tools
+    items: [Claude, GitHub Copilot, Cursor, ChatGPT, Gemini]
