@@ -1,0 +1,32 @@
+# Section headings and short intros. Section numbers (01, 02 …) are added automatically.
+# Wrap a word in *asterisks* to set it in the gold italic serif.
+
+work:
+  label: Selected work
+  title: Client work
+  intro: Production sites I coded — mostly custom themes on top of WordPress, WooCommerce and Voog.
+projects:
+  label: Personal projects
+  title: Built for *fun*
+  more: More sites I've built
+about:
+  label: About
+  title: Eight years of *code on top.*
+renders:
+  label: From the 3D drawer
+  title: Old renders, *still proud.*
+  intro: Modeled and rendered years ago — where the Three.js games started.
+  tag: 3D render
+skills:
+  label: Skills & tools
+  title: The toolkit
+experience:
+  label: Experience
+  title: Career so far
+education:
+  label: Education
+  title: Where I learned
+contact:
+  label: Contact
+  title: Let's build *something good.*
+footer: Hand-coded in Tallinn, EE

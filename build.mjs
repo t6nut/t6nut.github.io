@@ -6,20 +6,50 @@ import { parse } from 'yaml';
 
 const read = (f) => parse(fs.readFileSync(`content/${f}.yml`, 'utf8'));
 const p = read('profile');
-const { featured, personal = [], more } = read('projects');
+const { featured, personal = [], more, renders = [] } = read('projects');
 const { jobs } = read('experience');
 const { groups: skills } = read('skills');
+const s = read('sections');
 
 const DIST = 'dist';
 const year = new Date().getFullYear();
 
-const esc = (s = '') => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const bare = (u) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
-const ext = (href, label, cls = '') => `<a href="${esc(href)}"${cls ? ` class="${cls}"` : ''} rel="noopener">${esc(label)}</a>`;
+const esc = (v = '') => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+// Escape, then turn *word* into the gold italic serif accent.
+const rich = (v = '') => esc(v).replace(/\*(.+?)\*/g, '<em>$1</em>');
+const ext = (href, label, cls = '') => `<a href="${esc(href)}"${cls ? ` class="${cls}"` : ''} target="_blank" rel="noopener">${label}</a>`;
+const pad = (i) => String(i + 1).padStart(2, '0');
+const tags = (list = []) => `<ul class="tags">${list.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`;
 
-const THEME_BOOT = `<script>try{var m=localStorage.getItem('theme')}catch(e){}var h=new Date().getHours();document.documentElement.dataset.theme=m==='light'||m==='dark'?m:(h>=19||h<7?'dark':'light')</script>`;
+// <picture> with a WebP source when src/<name>.webp sits next to the JPEG/PNG.
+const picture = (src, alt, attrs = '') => {
+  const webp = src.replace(/\.(jpe?g|png)$/i, '.webp');
+  const hasWebp = webp !== src && fs.existsSync(`src/${webp.replace(/^\//, '')}`);
+  return `<picture>${hasWebp ? `<source srcset="${esc(webp)}" type="image/webp">` : ''}<img src="${esc(src)}" alt="${esc(alt)}" ${attrs}></picture>`;
+};
 
-const head = ({ title, description, canonical, css, extra = '', theme = true }) => `<!doctype html>
+// Section eyebrows are numbered 01, 02 … in page order (the template is evaluated top to bottom).
+let secNum = 0;
+const eyebrow = (sec, numbered = true) => `<p class="eyebrow">${numbered ? `${pad(secNum++)} / ` : ''}${esc(sec.label)}</p>`;
+
+// Section header: eyebrow + H2, with an optional intro or extra markup on the right.
+const secHead = (id, sec, { numbered = true, size = '', intro = sec.intro, extra = '' } = {}) => `<div class="sec-head" data-reveal>
+    <div>
+      ${eyebrow(sec, numbered)}
+      <h2 id="${id}-h" class="h2${size ? ` ${size}` : ''}">${rich(sec.title)}</h2>
+    </div>
+    ${intro ? `<p class="sec-intro">${esc(intro)}</p>` : ''}${extra}
+  </div>`;
+
+const links = (pr) => {
+  const out = [];
+  if (pr.url) out.push([pr.url2 ? 'Website' : 'Live', pr.url]);
+  if (pr.url2) out.push(['Shop', pr.url2]);
+  if (pr.code) out.push(['Code', pr.code]);
+  return out.map(([label, href]) => ext(href, `${label} <span aria-hidden="true">↗</span>`)).join('');
+};
+
+const head = ({ title, description, canonical, css, extra = '' }) => `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -27,16 +57,20 @@ const head = ({ title, description, canonical, css, extra = '', theme = true }) 
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${esc(canonical)}">
-<meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#f6f5f1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0b0d">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${esc(canonical)}">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-${theme ? `${THEME_BOOT}\n` : ''}<link rel="stylesheet" href="${css}">
-${theme ? '<script src="/theme.js" defer></script>\n' : ''}${extra}</head>`;
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="${css}">
+${extra}</head>`;
 
 // ---------- Portfolio ----------
 const jsonLd = {
@@ -50,13 +84,11 @@ const jsonLd = {
   sameAs: [p.linkedin, p.github],
 };
 
-const projectLinks = (pr) => {
-  const links = [];
-  if (pr.url) links.push(ext(pr.url, `${bare(pr.url)} ↗`));
-  if (pr.url2) links.push(ext(pr.url2, `${bare(pr.url2)} ↗`));
-  if (pr.code) links.push(ext(pr.code, 'Code ↗'));
-  return links.join('');
-};
+const dot = p.logo.indexOf('.');
+const logoA = dot === -1 ? p.logo : p.logo.slice(0, dot);
+const logoB = dot === -1 ? '' : p.logo.slice(dot);
+const city = p.location.split(',')[0];
+const kindLabel = { app: 'App', game: 'Game' };
 
 const index = `${head({
   title: p.seo_title,
@@ -67,116 +99,176 @@ const index = `${head({
 })}
 <body>
 <a class="skip" href="#work">Skip to work</a>
-<header class="top">
-  <div class="wrap top-in">
-    <a class="mark" href="#top"><span aria-hidden="true">TT</span><span class="sr">${esc(p.name)}, back to top</span></a>
-    <div class="top-right">
-    <nav aria-label="Main">
-      <a href="#work">Work</a><a href="#skills">Skills</a><a href="#about">About</a><a href="#contact">Contact</a>
-    </nav>
-    <button class="theme-toggle" type="button" hidden>
-      <svg class="i i-auto" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.25"/><path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg>
-      <svg class="i i-light" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3.05 3.05l1.13 1.13M11.82 11.82l1.13 1.13M3.05 12.95l1.13-1.13M11.82 4.18l1.13-1.13"/></svg>
-      <svg class="i i-dark" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.75 5.75 0 0 1 6.4 2.5a5.75 5.75 0 1 0 7.1 7.1z"/></svg>
-      <span class="theme-label">Auto</span>
-    </button>
-    </div>
-  </div>
+<header class="site-nav">
+  <a class="logo" href="#top" aria-label="${esc(p.logo)}"><span class="logo-a">${esc(logoA)}</span><span class="logo-b">${esc(logoB)}</span><span class="caret" aria-hidden="true"></span></a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" hidden>Menu</button>
+  <nav id="nav-links" class="nav-links" aria-label="Main">
+    <a href="#work">Work</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#contact" class="nav-contact">Contact</a>
+  </nav>
 </header>
 
 <main>
-<section id="top" class="hero wrap" aria-labelledby="name">
-  <p class="eyebrow">${esc(p.role)} · ${esc(p.location)}</p>
-  <h1 id="name">${esc(p.name)}</h1>
-  <p class="pitch">${esc(p.pitch)}</p>
-  <p class="cta">
-    <a class="btn" href="mailto:${esc(p.email)}">Email me</a>
-    ${ext(p.linkedin, 'LinkedIn', 'plain')}
-    ${ext(p.github, 'GitHub', 'plain')}
-  </p>
+<section id="top" class="hero" aria-labelledby="hero-h">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-ambient"></div>
+    <div class="hero-photo">${picture('/img/hero.jpg', '', 'width="1400" height="1867" fetchpriority="high"')}</div>
+    <div class="hero-shade"></div>
+    <div class="hero-wash"></div>
+    <div class="hero-grain"></div>
+  </div>
+  <div class="hero-in">
+    <p class="eyebrow rise"><span class="dot"></span>${esc(p.role)} · ${esc(city)}</p>
+    <h1 id="hero-h" class="rise">${rich(p.headline)}</h1>
+    <p class="lede rise">${esc(p.pitch)}</p>
+    <p class="cta rise">
+      <a class="pill pill-gold" href="#work">See selected work →</a>
+      <a class="pill" href="mailto:${esc(p.email)}">Get in touch</a>
+    </p>
+  </div>
+  <div class="hero-bar">
+    <span>${esc(p.availability)}</span><span aria-hidden="true">Scroll ↓</span>
+  </div>
 </section>
 
-<section id="work" class="wrap" aria-labelledby="work-h">
-  <h2 id="work-h" class="label">Selected client work</h2>
-  <ol class="projects">
-${featured.map((pr) => `    <li class="project">
-      <div class="p-main">
-        <h3>${esc(pr.name)}</h3>
-        <p>${esc(pr.summary)}</p>
-        <p class="p-links">${projectLinks(pr)}</p>
-      </div>
-      <dl class="p-meta">
-        <dt>Role</dt><dd>${esc(pr.role)}</dd>
-        <dt>Stack</dt><dd><ul class="tags">${pr.stack.map((s) => `<li>${esc(s)}</li>`).join('')}</ul></dd>
-      </dl>
-    </li>`).join('\n')}
-  </ol>
+<section id="work" class="sec wrap" aria-labelledby="work-h">
+  ${secHead('work', s.work)}
+  <div class="work-grid">
+${featured.map((pr, i) => `    <article class="card work-card" data-reveal>
+      <span class="ghost" aria-hidden="true">${pad(i)}</span>
+      <p class="card-role">${esc(pr.role)}</p>
+      <h3>${esc(pr.name)}</h3>
+      <p class="card-sum">${esc(pr.summary)}</p>
+      ${tags(pr.stack)}
+      <p class="card-links">${links(pr)}</p>
+    </article>`).join('\n')}
+  </div>
+</section>
 
-  <h3 id="personal" class="label sub">Personal projects</h3>
-  <ol class="projects">
-${personal.map((pr) => `    <li class="project">
-      <div class="p-main">
-        <h3>${esc(pr.name)}</h3>
-        <p>${esc(pr.summary)}</p>
-        ${pr.highlights?.length ? `<ul class="highlights">${pr.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
-        <p class="p-links">${projectLinks(pr)}</p>
+<section id="projects" class="sec wrap" aria-labelledby="projects-h">
+  ${secHead('projects', s.projects, { extra: `
+    <div class="filters" role="group" aria-label="Filter projects" hidden>
+      <button type="button" data-filter="all" aria-pressed="true">All</button><button type="button" data-filter="app" aria-pressed="false">Apps</button><button type="button" data-filter="game" aria-pressed="false">Games</button>
+    </div>` })}
+  <div class="proj-grid">
+${personal.map((pr, i) => `    <article class="card proj-card"${pr.kind ? ` data-kind="${esc(pr.kind)}"` : ''}>
+      <div class="proj-top" aria-hidden="true">
+        <span class="ghost">${pad(i)}</span>
+        ${kindLabel[pr.kind] ? `<span class="badge">${kindLabel[pr.kind]}</span>` : ''}
       </div>
-      <dl class="p-meta">
-        <dt>Stack</dt><dd><ul class="tags">${pr.stack.map((s) => `<li>${esc(s)}</li>`).join('')}</ul></dd>
-      </dl>
-    </li>`).join('\n')}
-  </ol>
+      <div class="proj-body">
+        <h3>${esc(pr.name)}</h3>
+        <p class="card-sum">${esc(pr.summary)}</p>
+        ${tags(pr.stack)}
+        ${pr.highlights?.length ? `<details class="how">
+          <summary><span class="how-closed">+ How it works</span><span class="how-open">− Hide details</span></summary>
+          <ul>${pr.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>
+        </details>` : ''}
+        <p class="card-links">${links(pr)}</p>
+      </div>
+    </article>`).join('\n')}
+  </div>
 
-  <h3 class="label sub">More sites I've built</h3>
-  <div class="more">
+  <div class="more" data-reveal>
+    <h3 class="more-h">${esc(s.projects.more)}</h3>
 ${more.map((g) => `    <div>
       <h4>${esc(g.label)}</h4>
-      <ul>${g.items.map((i) => `<li>${i.url ? ext(i.url, i.name) : esc(i.name)}</li>`).join('')}</ul>
+      <ul>${g.items.map((it) => `<li>${it.url ? ext(it.url, esc(it.name)) : `<span>${esc(it.name)}</span>`}</li>`).join('')}</ul>
     </div>`).join('\n')}
   </div>
 </section>
 
-<section id="skills" class="wrap" aria-labelledby="skills-h">
-  <h2 id="skills-h" class="label">Skills</h2>
-  <div class="skills">
+<section id="about" class="sec alt" aria-labelledby="about-h">
+  <div class="wrap about">
+    <div data-reveal>
+      <figure class="portrait">
+        ${picture('/img/portrait.jpg', p.name, 'width="960" height="960" loading="lazy"')}
+        <figcaption>${esc(p.location)}</figcaption>
+      </figure>
+    </div>
+    <div data-reveal>
+      ${eyebrow(s.about)}
+      <h2 id="about-h" class="h2 sm">${rich(s.about.title)}</h2>
+      <div class="prose">${p.about.map((t) => `<p>${esc(t)}</p>`).join('')}</div>
+${p.stats?.length ? `      <dl class="stats">${p.stats.map((st) => `<div><dt>${esc(st.label)}</dt><dd>${esc(st.value)}</dd></div>`).join('')}</dl>` : ''}
+    </div>
+  </div>
+</section>
+
+${renders.length ? `<section id="renders" class="sec wrap" aria-labelledby="renders-h">
+  ${secHead('renders', s.renders, { numbered: false, size: 'sm' })}
+  <div class="renders" data-reveal>
+${renders.map((r) => `    <figure>
+      <div class="render-frame">${picture(r.image, `${r.title}, ${s.renders.tag}`, 'width="1200" height="800" loading="lazy"')}</div>
+      <figcaption><span>${esc(r.title)}</span><span>${esc(s.renders.tag)}</span></figcaption>
+    </figure>`).join('\n')}
+  </div>
+</section>
+
+` : ''}<section id="skills" class="sec wrap" aria-labelledby="skills-h">
+  ${secHead('skills', s.skills)}
+  <div class="skills" data-reveal>
 ${skills.map((g) => `    <div>
       <h3>${esc(g.label)}</h3>
-      <p>${g.items.map(esc).join(', ')}</p>
+      <ul>${g.items.map((it) => `<li>${esc(it)}</li>`).join('')}</ul>
     </div>`).join('\n')}
   </div>
 </section>
 
-<section id="about" class="wrap" aria-labelledby="about-h">
-  <h2 id="about-h" class="label">About</h2>
-  <div class="about">
-    <div class="prose">${p.about.map((t) => `<p>${esc(t)}</p>`).join('')}</div>
-    <ol class="timeline" aria-label="Experience">
-${jobs.map((j) => `      <li><span class="when">${esc(j.when)}</span><span><strong>${esc(j.title)}</strong><br>${esc(j.org)}</span></li>`).join('\n')}
-${p.education.map((e) => `      <li><span class="when">${esc(e.when)}</span><span><strong>${esc(e.title)}</strong><br>${esc(e.org)}</span></li>`).join('\n')}
-    </ol>
+<section id="experience" class="sec alt narrow" aria-labelledby="experience-h">
+  <div class="wrap-n">
+  ${secHead('experience', s.experience)}
+  <ol class="timeline">
+${jobs.map((j) => `    <li data-reveal>
+      <p class="when">${esc(j.when)}${j.place ? ` · ${esc(j.place)}` : ''}</p>
+      <h3>${esc(j.title)}</h3>
+      <p class="org">${esc(j.org)}</p>
+      ${j.bullets?.length ? `<ul>${j.bullets.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>` : ''}
+    </li>`).join('\n')}
+  </ol>
   </div>
 </section>
 
-<section id="contact" class="wrap contact" aria-labelledby="contact-h">
-  <h2 id="contact-h" class="label">Contact</h2>
-  <p class="big"><a href="mailto:${esc(p.email)}">${esc(p.email)}</a></p>
-  <p>${esc(p.availability)}</p>
-  <p class="cta">${ext(p.linkedin, 'LinkedIn', 'plain')} ${ext(p.github, 'GitHub', 'plain')}</p>
+<section id="education" class="sec alt narrow" aria-labelledby="education-h">
+  <div class="wrap-n">
+  ${secHead('education', s.education, { size: 'sm' })}
+  <div class="edu" data-reveal>
+${p.education.map((e) => `    <div class="card edu-card">
+      <p class="when">${esc(e.when)}</p>
+      <h3>${esc(e.title)}</h3>
+      <p class="org">${esc(e.org)}</p>
+      ${e.note ? `<p class="note">${esc(e.note)}</p>` : ''}
+    </div>`).join('\n')}
+  </div>
+  </div>
+</section>
+
+<section id="contact" class="sec contact" aria-labelledby="contact-h">
+  <div class="contact-in" data-reveal>
+    ${eyebrow(s.contact)}
+    <h2 id="contact-h" class="h2 xl">${rich(s.contact.title)}</h2>
+    <p class="contact-avail">${esc(p.availability)}</p>
+    <a class="contact-mail" href="mailto:${esc(p.email)}">${esc(p.email)}</a>
+    <p class="cta">
+      <a class="pill pill-gold" href="mailto:${esc(p.email)}">Email me →</a>
+      ${ext(p.linkedin, 'LinkedIn', 'pill')}
+      ${ext(p.github, 'GitHub', 'pill')}
+    </p>
+  </div>
 </section>
 </main>
 
-<footer class="wrap foot">
-  <p>© ${year} ${esc(p.name)}</p>
+<footer class="foot">
+  <span>${esc(p.name)} © ${year}</span>
+  <span>${esc(s.footer)}</span>
 </footer>
-<script src="/main.js" defer></script>
+<script src="/main.js" type="module"></script>
 </body>
 </html>
 `;
 
 // ---------- Write ----------
 fs.rmSync(DIST, { recursive: true, force: true });
-fs.mkdirSync(DIST, { recursive: true });
-for (const f of fs.readdirSync('src')) fs.copyFileSync(`src/${f}`, `${DIST}/${f}`);
+fs.cpSync('src', DIST, { recursive: true });
 fs.writeFileSync(`${DIST}/index.html`, index);
 fs.writeFileSync(`${DIST}/robots.txt`, `User-agent: *\nAllow: /\nSitemap: ${p.site_url}/sitemap.xml\n`);
 fs.writeFileSync(`${DIST}/sitemap.xml`, `<?xml version="1.0" encoding="UTF-8"?>

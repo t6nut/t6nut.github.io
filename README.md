@@ -16,12 +16,19 @@ The site updates about a minute later. Watch progress under the repo's **Actions
 
 | File | What it holds |
 |---|---|
-| `content/profile.yml` | Name, pitch, links, About text, education |
-| `content/projects.yml` | Featured projects and the "more sites" lists |
-| `content/experience.yml` | Jobs (used on the About timeline) |
+| `content/profile.yml` | Name, logo text, hero headline and pitch, links, About text and stats, education |
+| `content/projects.yml` | Client work, personal projects (`kind: app` or `game`), the "more sites" lists, 3D renders |
+| `content/experience.yml` | Jobs (the Experience timeline) |
 | `content/skills.yml` | Skill groups |
+| `content/sections.yml` | Section headings, intros and the footer note |
 
-YAML tip: wrap a value in quotes if it contains `: `, `#`, or a comma inside `[ ]` or `{ }`.
+In headings, wrap a word in `*asterisks*` to set it in the gold italic serif, e.g. `Built for *fun*`.
+
+YAML tip: wrap a value in quotes if it contains `: `, `#`, starts with `*`, or has a comma inside `[ ]` or `{ }`.
+
+## Images
+
+Images live in `src/img/` and are served from `/img/`. If a `.webp` file with the same name sits next to a `.jpg`, the page offers it automatically. The hero (`hero.jpg`, `hero-ambient.jpg`) and the About portrait (`portrait.jpg`) have fixed names. Before adding a photo, resize it (about 1400px wide is plenty) and strip its metadata: phone photos carry GPS location in EXIF.
 
 ## Run locally
 

@@ -2,12 +2,15 @@
 # Edit on GitHub.com (pencil icon) or in Pages CMS. Every save redeploys the site.
 
 name: Tõnu Trubetsky jr.
+logo: trubetsky.dev
 role: Web Developer
 location: Tallinn, Estonia
 availability: Open to remote and local work, full-time or freelance.
+# Hero heading. Wrap a word in *asterisks* to set it in the gold italic serif.
+headline: Hand-coded sites, *stores* & things that run in a browser.
 pitch: I design and build websites and web apps, from custom CMS themes and online stores to JavaScript projects built from scratch.
 
-email: tttrubetsky@gmail.com
+email: trubetsky.dev@gmail.com
 linkedin: https://www.linkedin.com/in/tonutrubetskyjr/
 github: https://github.com/t6nut
 
@@ -20,6 +23,10 @@ about:
   - As webmaster at Bombay Group I look after several production sites, covering code, content, server and backups. Outside client work I build my own projects, such as a live map of Estonian cinema showtimes, a tactics board for my football team, and 3D browser games in Three.js.
   - Away from the screen, I cycle, play football and padel, and do design for fun in Illustrator and Figma.
 
+# Big numbers under the About text.
+stats:
+  - { value: 8 yrs, label: Building for the web }
+  - { value: 20+, label: Sites shipped }
 
 education:
   - title: BSc Computer Science

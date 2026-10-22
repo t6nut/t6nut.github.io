@@ -1,6 +1,11 @@
 # Config for Pages CMS (https://pagescms.org): a free visual editor for these YAML files.
 # Every save in the editor is a commit to main, which triggers the deploy workflow.
 
+# Images uploaded in the editor go to src/img/ and are served from /img/.
+media:
+  input: src/img
+  output: /img
+
 content:
   - name: profile
     label: Profile & about
@@ -9,9 +14,11 @@ content:
     format: yaml
     fields:
       - { name: name, label: Name, type: string }
+      - { name: logo, label: Logo text (typed in the nav), type: string }
       - { name: role, label: Role, type: string }
       - { name: location, label: Location, type: string }
       - { name: availability, label: Availability line, type: string }
+      - { name: headline, label: "Hero headline (*word* = gold italic)", type: string }
       - { name: pitch, label: One-line pitch (hero), type: text }
       - { name: email, label: Email, type: string }
       - { name: linkedin, label: LinkedIn URL, type: string }
@@ -20,6 +27,13 @@ content:
       - { name: seo_title, label: SEO title, type: string }
       - { name: seo_description, label: SEO description, type: text }
       - { name: about, label: About paragraphs, type: text, list: true }
+      - name: stats
+        label: About stats
+        type: object
+        list: true
+        fields:
+          - { name: value, label: Number, type: string }
+          - { name: label, label: Caption, type: string }
       - name: education
         label: Education
         type: object
@@ -54,6 +68,7 @@ content:
         list: true
         fields:
           - { name: name, label: Name, type: string }
+          - { name: kind, label: Type, type: select, options: { values: [app, game] } }
           - { name: url, label: Live URL, type: string }
           - { name: code, label: Code URL (public repos only), type: string }
           - { name: summary, label: Summary, type: text }
@@ -72,6 +87,13 @@ content:
             fields:
               - { name: name, label: Name, type: string }
               - { name: url, label: URL, type: string }
+      - name: renders
+        label: 3D renders
+        type: object
+        list: true
+        fields:
+          - { name: image, label: Image, type: image }
+          - { name: title, label: Title, type: string }
 
   - name: experience
     label: Experience
@@ -103,3 +125,63 @@ content:
         fields:
           - { name: label, label: Group name, type: string }
           - { name: items, label: Skills, type: string, list: true }
+
+  - name: sections
+    label: Section headings
+    type: file
+    path: content/sections.yml
+    format: yaml
+    fields:
+      - name: work
+        label: Client work
+        type: object
+        fields:
+          - { name: label, label: Eyebrow label, type: string }
+          - { name: title, label: "Heading (*word* = gold italic)", type: string }
+          - { name: intro, label: Intro, type: text }
+      - name: projects
+        label: Personal projects
+        type: object
+        fields:
+          - { name: label, label: Eyebrow label, type: string }
+          - { name: title, label: "Heading (*word* = gold italic)", type: string }
+          - { name: more, label: More sites heading, type: string }
+      - name: about
+        label: About
+        type: object
+        fields:
+          - { name: label, label: Eyebrow label, type: string }
+          - { name: title, label: "Heading (*word* = gold italic)", type: string }
+      - name: renders
+        label: 3D renders
+        type: object
+        fields:
+          - { name: label, label: Eyebrow label, type: string }
+          - { name: title, label: "Heading (*word* = gold italic)", type: string }
+          - { name: intro, label: Intro, type: text }
+          - { name: tag, label: Caption tag, type: string }
+      - name: skills
+        label: Skills
+        type: object
+        fields:
+          - { name: label, label: Eyebrow label, type: string }
+          - { name: title, label: "Heading (*word* = gold italic)", type: string }
+      - name: experience
+        label: Experience
+        type: object
+        fields:
+          - { name: label, label: Eyebrow label, type: string }
+          - { name: title, label: "Heading (*word* = gold italic)", type: string }
+      - name: education
+        label: Education
+        type: object
+        fields:
+          - { name: label, label: Eyebrow label, type: string }
+          - { name: title, label: "Heading (*word* = gold italic)", type: string }
+      - name: contact
+        label: Contact
+        type: object
+        fields:
+          - { name: label, label: Eyebrow label, type: string }
+          - { name: title, label: "Heading (*word* = gold italic)", type: string }
+      - { name: footer, label: Footer note, type: string }
