@@ -103,7 +103,12 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: v
 .hero-bg > div { position: absolute; inset: 0; }
 /* background-size 450% shows only the far-left strip of the photo: colour without faces. */
 .hero-bg .hero-ambient { inset: -10%; background: url(img/hero-ambient.jpg) 0 0 / 450% 100% no-repeat; filter: blur(48px) saturate(1.2) brightness(.55); opacity: .9; }
-.hero-bg .hero-photo { left: auto; right: -2%; width: 64%; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 38%); mask-image: linear-gradient(90deg, transparent 0%, #000 38%); }
+/* Long, eased mask so the photo melts into the ambient layer instead of showing an edge. */
+.hero-bg .hero-photo {
+  --fade: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, .04) 8%, rgba(0, 0, 0, .14) 16%, rgba(0, 0, 0, .3) 24%, rgba(0, 0, 0, .5) 32%, rgba(0, 0, 0, .7) 40%, rgba(0, 0, 0, .86) 48%, rgba(0, 0, 0, .96) 56%, #000 64%);
+  left: auto; right: 0; width: 50%;
+  -webkit-mask-image: var(--fade); mask-image: var(--fade);
+}
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: grayscale(.15) contrast(1.05); animation: drift 22s ease-in-out infinite alternate; }
 .hero-shade {
   background:
@@ -111,7 +116,6 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: v
     linear-gradient(0deg, rgba(11, 11, 13, .7) 0%, transparent 35%);
 }
 .hero-wash { background: radial-gradient(120% 90% at 78% 40%, rgba(111, 138, 216, .28), transparent 55%), radial-gradient(90% 80% at 88% 78%, rgba(200, 177, 104, .22), transparent 60%); mix-blend-mode: screen; }
-.hero-bg .hero-grain { inset: -30%; opacity: .06; background: repeating-conic-gradient(#fff 0 .0006turn, #000 0 .0012turn); animation: grain .8s steps(4) infinite; }
 
 .hero-in { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 84vh; max-width: var(--max); margin: 0 auto; padding: 120px var(--gutter) 64px; }
 .hero .eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
@@ -281,7 +285,6 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: v
 
 /* ---------- Motion ---------- */
 @keyframes drift { 0% { transform: translate(0, 0) scale(1.05); } 100% { transform: translate(-3%, 2%) scale(1.12); } }
-@keyframes grain { 0%, 100% { transform: translate(0, 0); } 20% { transform: translate(-4%, 3%); } 40% { transform: translate(3%, -2%); } 60% { transform: translate(-2%, -3%); } 80% { transform: translate(2%, 4%); } }
 @keyframes riseA { 0% { opacity: 0; transform: translateY(26px); } 100% { opacity: 1; transform: translateY(0); } }
 @keyframes cardIn { 0% { opacity: 0; transform: translateY(18px); } 100% { opacity: 1; transform: none; } }
 @keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
@@ -289,7 +292,7 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: v
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hero-photo img, .hero-bg .hero-grain, .rise, .dot, .proj-card.card-in { animation: none; }
+  .hero-photo img, .rise, .dot, .proj-card.card-in { animation: none; }
   .render-frame img { transition: none; }
   .render-frame:hover img { transform: none; }
 }

@@ -114,7 +114,6 @@ const index = `${head({
     <div class="hero-photo">${picture('/img/hero.jpg', '', 'width="1400" height="1867" fetchpriority="high"')}</div>
     <div class="hero-shade"></div>
     <div class="hero-wash"></div>
-    <div class="hero-grain"></div>
   </div>
   <div class="hero-in">
     <p class="eyebrow rise"><span class="dot"></span>${esc(p.role)} · ${esc(city)}</p>
