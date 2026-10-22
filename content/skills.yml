@@ -17,3 +17,5 @@ groups:
     items: [Figma, Illustrator, Photoshop, Jira, Confluence, Notion, Slack]
   - label: AI tools
     items: [Claude, GitHub Copilot, Cursor, ChatGPT, Gemini]
+  - label: Dev tools
+    items: [VS Code, Atom, Terminal, PowerShell, macOS and Windows, Android and iOS]

@@ -26,7 +26,7 @@ about:
 # Big numbers under the About text.
 stats:
   - { value: 8 yrs, label: Building for the web }
-  - { value: 20+, label: Sites shipped }
+  - { value: ∞, label: Lines of code shipped }
 
 education:
   - title: BSc Computer Science
