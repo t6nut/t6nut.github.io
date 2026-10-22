@@ -15,7 +15,7 @@ about:
 renders:
   label: From the 3D drawer
   title: Old renders, *still proud.*
-  intro: Modeled and rendered years ago — where the Three.js games started.
+  intro: Modeled in Solid Edge and rendered years ago.
   tag: 3D render
 skills:
   label: Skills & tools
@@ -29,4 +29,4 @@ education:
 contact:
   label: Contact
   title: Let's build *something good.*
-footer: Hand-coded in Tallinn, EE
+footer: Made in Tallinn, EE

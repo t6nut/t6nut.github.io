@@ -113,5 +113,5 @@ more:
 
 # "From the 3D drawer". Images live in src/img/. A .webp next to the .jpg is used automatically.
 renders:
-  - { image: /img/bike.jpg, title: Bike }
-  - { image: /img/caliper.jpg, title: Brake caliper }
+  - { image: /img/bike.jpg, title: "Custom bicycle, inspired by Viks" }
+  - { image: /img/caliper.jpg, title: "Brake caliper, measured 1:1 from the real part" }
