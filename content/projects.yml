@@ -30,6 +30,20 @@ featured:
     role: Development
     stack: [Liquid, JavaScript, HTML, CSS, Voog CMS]
     code: ""
+  - name: Kodasema
+    url: https://kodasema.com
+    url2: ""
+    summary: Custom WordPress theme coded from custom designs.
+    role: Development
+    stack: [PHP, JavaScript, HTML, CSS, WordPress]
+    code: ""
+  - name: KE Ajakirjandus
+    url: https://ajakirjandus.ke.ee
+    url2: ""
+    summary: Custom WooCommerce store, with the theme coded from custom designs.
+    role: Store development
+    stack: [PHP, JavaScript, HTML, CSS, WooCommerce]
+    code: ""
 
 # kind is app or game (drives the All / Apps / Games filter).
 personal:
@@ -93,11 +107,7 @@ more:
     items:
       - { name: reitingud.ee, url: https://reitingud.ee }
       - { name: 1dox.site, url: https://1dox.site }
-      - { name: kodasema.com, url: https://kodasema.com }
       - { name: tuul.xyz, url: https://www.tuul.xyz }
-  - label: WooCommerce
-    items:
-      - { name: ajakirjandus.ke.ee, url: https://ajakirjandus.ke.ee }
   - label: Voog CMS
     items:
       - { name: warmeston.ee, url: https://warmeston.ee }

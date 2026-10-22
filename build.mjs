@@ -111,7 +111,7 @@ const index = `${head({
 <section id="top" class="hero" aria-labelledby="hero-h">
   <div class="hero-bg" aria-hidden="true">
     <div class="hero-ambient"></div>
-    <div class="hero-photo"><div class="hero-drift">${picture('/img/hero.jpg', '', 'width="1400" height="1867" fetchpriority="high"')}${picture('/img/hero.jpg', '', 'width="1400" height="1867" class="hero-haze"')}</div></div>
+    <div class="hero-photo">${picture('/img/hero.jpg', '', 'width="1400" height="1867" fetchpriority="high"')}</div>
     <div class="hero-shade"></div>
     <div class="hero-wash"></div>
   </div>
